@@ -110,10 +110,37 @@ public class LikePostRepositoryTest {
 
     @Test
     public void shouldFindByUserAndPostNotThrowExceptionWithNullParameters() {
-        repository.save(likePost);
-
         assertDoesNotThrow(() -> repository.findByUserAndPost(null, null));
         assertDoesNotThrow(() -> repository.findByUserAndPost(user, null));
         assertDoesNotThrow(() -> repository.findByUserAndPost(null, blogPost));
+    }
+
+    @Test
+    public void checkIfChangingUserForRepositoryItemsWork() {
+        User tempUser = new User();
+        tempUser.setFirstName("Adam");
+        tempUser.setAccountStatus(AccountStatus.NEW);
+        tempUser.setEmail("Morga@mail.com");
+        entityManager.persist(tempUser);
+
+        repository.save(likePost);
+        LikePost tempLikePost = repository.findAll().get(0);
+        tempLikePost.setUser(tempUser);
+
+        assertThat(tempUser.getLastName(), equalTo(repository.findAll().get(0).getUser().getLastName()));
+    }
+
+    @Test
+    public void checkIfChangingBlogPostForRepositoryItemsWork() {
+        BlogPost tempPost = new BlogPost();
+        tempPost.setEntry("testtestest");
+        tempPost.setUser(user);
+        entityManager.persist(tempPost);
+
+        repository.save(likePost);
+        LikePost tempLikePost = repository.findAll().get(0);
+        tempLikePost.setPost(tempPost);
+
+        assertThat(tempPost.getEntry(), equalTo(repository.findAll().get(0).getPost().getEntry()));
     }
 }
