@@ -31,11 +31,13 @@ public class UserRepositoryTest {
     private UserRepository repository;
 
     private User user, user2;
+    private final String NON_EXISTENT_STRING = "nonExistentString";
 
     @Before
     public void setUp() {
         user = new User();
         user.setFirstName("Jan");
+        user.setLastName("Kowalski");
         user.setEmail("john@domain.com");
         user.setAccountStatus(AccountStatus.NEW);
 
@@ -74,25 +76,37 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void shouldFindAllUsersByFirstName() {
+    public void shouldFindUserByFirstName() {
         User persistedUser = repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "");
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", NON_EXISTENT_STRING, NON_EXISTENT_STRING);
 
-        assertThat(users, hasSize(2));
+        assertThat(users, hasSize(1));
         assertEquals(users.get(0).getId(), persistedUser.getId());
 
     }
 
     @Test
-    public void shouldFindAllUsersByFirstNameAndEmail() {
+    public void shouldFindUserByFirstNameAndEmail() {
         User persistedUser = repository.save(user);
         repository.save(user2);
 
-        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "", "john@domain.com");
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", NON_EXISTENT_STRING, "john@domain.com");
 
-        assertThat(users, hasSize(2));
+        assertThat(users, hasSize(1));
+        assertEquals(users.get(0).getId(), persistedUser.getId());
+
+    }
+
+    @Test
+    public void shouldFindUserByFirstNameAndLastNameAndEmail() {
+        User persistedUser = repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("Jan", "Kowalski", "john@domain.com");
+
+        assertThat(users, hasSize(1));
         assertEquals(users.get(0).getId(), persistedUser.getId());
 
     }
