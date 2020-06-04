@@ -73,4 +73,11 @@ public class LikePostRepositoryTest {
 
     }
 
+    @Test
+    public void shouldStoreANewLikePost() {
+        LikePost persistedLikePost = repository.save(likePost);
+
+        assertThat(persistedLikePost.getPost(), notNullValue());
+    }
+
 }
