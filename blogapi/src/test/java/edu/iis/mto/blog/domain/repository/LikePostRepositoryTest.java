@@ -3,10 +3,11 @@ package edu.iis.mto.blog.domain.repository;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.util.List;
+import java.util.Optional;
 
 import edu.iis.mto.blog.domain.model.BlogPost;
 import edu.iis.mto.blog.domain.model.LikePost;
@@ -80,4 +81,39 @@ public class LikePostRepositoryTest {
         assertThat(persistedLikePost.getPost(), notNullValue());
     }
 
+    @Test
+    public void shouldFindLikePostByFindByUserAndPostWithBothParameters() {
+        repository.save(likePost);
+
+        Optional<LikePost> result = repository.findByUserAndPost(user, blogPost);
+        assertTrue(result.isPresent());
+    }
+
+    @Test
+    public void shouldNotFindLikePostByFindByUserAndPostWithOneParameter() {
+        repository.save(likePost);
+
+        Optional<LikePost> result = repository.findByUserAndPost(null, blogPost);
+        assertFalse(result.isPresent());
+
+        result = repository.findByUserAndPost(user, null);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void shouldNotFindLikePostByFindByUserAndPostWithZeroParameters() {
+        repository.save(likePost);
+
+        Optional<LikePost> result = repository.findByUserAndPost(null, null);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void shouldFindByUserAndPostNotThrowExceptionWithNullParameters() {
+        repository.save(likePost);
+
+        assertDoesNotThrow(() -> repository.findByUserAndPost(null, null));
+        assertDoesNotThrow(() -> repository.findByUserAndPost(user, null));
+        assertDoesNotThrow(() -> repository.findByUserAndPost(null, blogPost));
+    }
 }
