@@ -111,4 +111,15 @@ public class UserRepositoryTest {
 
     }
 
+    @Test
+    public void shouldFindAllUsersWithEmptyStringParameters() {
+        repository.save(user);
+        repository.save(user2);
+
+        List<User> users = repository.findByFirstNameContainingOrLastNameContainingOrEmailContainingAllIgnoreCase("", "", "");
+
+        assertThat(users, hasSize(2));
+
+    }
+
 }
