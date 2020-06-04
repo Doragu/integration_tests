@@ -63,4 +63,14 @@ public class LikePostRepositoryTest {
         assertThat(likePosts, hasSize(0));
     }
 
+    @Test
+    public void shouldFindOneLikePostIfRepositoryContainsOneLikePostEntity() {
+        LikePost persistedLikePost = entityManager.persist(likePost);
+
+        List<LikePost> likePosts = repository.findAll();
+        assertThat(likePosts, hasSize(1));
+        assertThat(likePosts.get(0).getPost(), equalTo(persistedLikePost.getPost()));
+
+    }
+
 }
