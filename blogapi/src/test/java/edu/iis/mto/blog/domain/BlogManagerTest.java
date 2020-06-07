@@ -59,7 +59,7 @@ public class BlogManagerTest {
     private User user, otherUser;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Long userID = 5L;
         Long otherUserID = 9L;
         Long blogPostID = 3L;
