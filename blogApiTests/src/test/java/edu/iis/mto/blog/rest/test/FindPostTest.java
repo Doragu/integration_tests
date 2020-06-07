@@ -10,10 +10,6 @@ import static org.hamcrest.CoreMatchers.is;
 public class FindPostTest {
 
     private static final String CONFIRMED_USER_POSTS_API = "/blog/user/1/post";
-    private static final String CONFIRMED_USER_POSTS_API_2 = "/blog/user/4/post";
-    private static final String CONFIRMED_USER_ZERO_POSTS_API = "/blog/user/5/post";
-    private static final String NEW_USER_POSTS_API = "/blog/user/2/post";
-    private static final String REMOVED_USER_POSTS_API = "/blog/user/3/post";
 
     @Test
     public void findPostWithProperUserStatusReturnsOKStatus() {
@@ -38,11 +34,13 @@ public class FindPostTest {
                .when()
                .get(CONFIRMED_USER_POSTS_API)
                .then()
-               .body("size()", is(3));
+               .body("size()", is(4));
     }
 
     @Test
     public void findPostWithProperUserWithZeroPostsReturnsOKStatus() {
+        String confirmedUserZeroPostsApi = "/blog/user/5/post";
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .expect()
@@ -50,13 +48,15 @@ public class FindPostTest {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(CONFIRMED_USER_ZERO_POSTS_API)
+               .get(confirmedUserZeroPostsApi)
                .then()
                .body("size()", is(0));
     }
 
     @Test
     public void findPostWithNEWStatusUserReturns400Status() {
+        String newUserPostsApi = "/blog/user/2/post";
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .expect()
@@ -64,11 +64,13 @@ public class FindPostTest {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .get(NEW_USER_POSTS_API);
+               .get(newUserPostsApi);
     }
 
     @Test
     public void findPostWithREMOVEDStatusUserReturns400Status() {
+        String removedUserPostsApi = "/blog/user/3/post";
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .expect()
@@ -76,11 +78,13 @@ public class FindPostTest {
                .all()
                .statusCode(HttpStatus.SC_BAD_REQUEST)
                .when()
-               .get(REMOVED_USER_POSTS_API);
+               .get(removedUserPostsApi);
     }
 
     @Test
     public void findPostReturnsPostWithProperAmountOfLikes() {
+        String confirmedUserPostsApi = "/blog/user/4/post";
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .expect()
@@ -88,7 +92,7 @@ public class FindPostTest {
                .all()
                .statusCode(HttpStatus.SC_OK)
                .when()
-               .get(CONFIRMED_USER_POSTS_API_2)
+               .get(confirmedUserPostsApi)
                .then()
                .body("[0][\"likesCount\"]", is(1));
     }

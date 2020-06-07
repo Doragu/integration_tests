@@ -1,15 +1,15 @@
 package edu.iis.mto.blog.domain;
 
-import static org.junit.Assert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import edu.iis.mto.blog.api.request.UserRequest;
 import edu.iis.mto.blog.domain.errors.DomainError;
+import edu.iis.mto.blog.domain.model.AccountStatus;
 import edu.iis.mto.blog.domain.model.BlogPost;
+import edu.iis.mto.blog.domain.model.User;
 import edu.iis.mto.blog.domain.repository.BlogPostRepository;
 import edu.iis.mto.blog.domain.repository.LikePostRepository;
+import edu.iis.mto.blog.domain.repository.UserRepository;
+import edu.iis.mto.blog.mapper.BlogDataMapper;
+import edu.iis.mto.blog.services.BlogService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,14 +21,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import edu.iis.mto.blog.api.request.UserRequest;
-import edu.iis.mto.blog.domain.model.AccountStatus;
-import edu.iis.mto.blog.domain.model.User;
-import edu.iis.mto.blog.domain.repository.UserRepository;
-import edu.iis.mto.blog.mapper.BlogDataMapper;
-import edu.iis.mto.blog.services.BlogService;
-
 import java.util.Optional;
+
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

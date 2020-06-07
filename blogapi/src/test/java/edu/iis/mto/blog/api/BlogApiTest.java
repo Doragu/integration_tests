@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import edu.iis.mto.blog.domain.errors.DomainError;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +40,6 @@ public class BlogApiTest {
 
     @MockBean
     private DataFinder finder;
-
-    private UserRequest user;
-
-    @Before
-    public void setUp() {
-        Long newUserId = 1L;
-        UserRequest user = new UserRequest();
-        user.setEmail("john@domain.com");
-        user.setFirstName("John");
-        user.setLastName("Steward");
-    }
 
     @Test
     public void postBlogUserShouldResponseWithStatusCreatedAndNewUserId() throws Exception {

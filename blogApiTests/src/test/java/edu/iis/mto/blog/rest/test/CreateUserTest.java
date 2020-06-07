@@ -15,6 +15,7 @@ public class CreateUserTest extends FunctionalTests {
     @Test
     public void createUserWithProperDataReturnsCreatedStatus() {
         JSONObject jsonObj = new JSONObject().put("email", "tracy1@domain.com");
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .body(jsonObj.toString())
@@ -29,6 +30,7 @@ public class CreateUserTest extends FunctionalTests {
     @Test
     public void createUserWithNonUniqueMailShouldNotWork() {
         JSONObject jsonObj = new JSONObject().put("email", "testduplicate@domain.com");
+
         given().accept(ContentType.JSON)
                .header("Content-Type", "application/json;charset=UTF-8")
                .body(jsonObj.toString())
